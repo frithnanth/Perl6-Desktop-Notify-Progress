@@ -11,7 +11,7 @@ SYNOPSIS
 ```perl6
 use Desktop::Notify::Progress;
 
-my $p := Progress.new: :filename('BigDataFile');
+my $p := Desktop::Notify::Progress.new: :filename('BigDataFile');
 for $p -> $line {
   painfully-process($line);
 }
@@ -21,7 +21,7 @@ for $p -> $line {
 use Desktop::Notify::Progress;
 
 my $fh = 'BigDataFile'.IO.open;
-my $p := Progress.new: :$fh, :title('Long data processing'), :timeout(2);
+my $p := Desktop::Notify::Progress.new: :$fh, :title('Long data processing'), :timeout(2);
 for $p -> $line {
   painfully-process($line);
 }
