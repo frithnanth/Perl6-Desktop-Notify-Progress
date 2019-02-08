@@ -27,6 +27,24 @@ for $p -> $line {
 }
 ```
 
+```perl6
+use Desktop::Notify::Progress;
+
+my $p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
+for $p<> -> $line {
+  painfully-process($line);
+}
+```
+
+```perl6
+use Desktop::Notify::Progress;
+
+my @p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
+for @p -> $line {
+  painfully-process($line);
+}
+```
+
 DESCRIPTION
 ===========
 

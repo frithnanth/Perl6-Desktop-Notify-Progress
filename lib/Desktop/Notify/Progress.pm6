@@ -66,6 +66,28 @@ for $p -> $line {
 
 =end code
 
+=begin code :lang<perl6>
+
+use Desktop::Notify::Progress;
+
+my $p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
+for $p<> -> $line {
+  painfully-process($line);
+}
+
+=end code
+
+=begin code :lang<perl6>
+
+use Desktop::Notify::Progress;
+
+my @p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
+for @p -> $line {
+  painfully-process($line);
+}
+
+=end code
+
 =head1 DESCRIPTION
 
 Desktop::Notify::Progress is a small class that provides a way to show the progress of file processing using libnotify
