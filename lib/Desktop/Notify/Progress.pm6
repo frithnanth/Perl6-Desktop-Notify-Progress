@@ -8,14 +8,14 @@ class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
   has Desktop::Notify $!notify;
   has NotifyNotification $!n;
 
-  multi submethod TWEAK(Str :$filename!, Str :$title?, Int :$timeout? = 0) {
+  multi submethod BUILD(Str :$filename!, Str :$title?, Int :$timeout? = 0) {
     X::AdHoc.new(payload => 'File not found').throw if ! $filename.IO.e;
     $!fh = $filename.IO.open;
     $!size = $!fh.IO.s;
     $!notify = Desktop::Notify.new(app-name => $title // $filename);
     $!n = $!notify.new-notification: :summary($title // $filename), :body(self.perc), :icon('info'), :$timeout
   }
-  multi submethod TWEAK(IO::Handle :$fh!, Str :$title!, Int :$timeout? = 0) {
+  multi submethod BUILD(IO::Handle :$fh!, Str :$title!, Int :$timeout? = 0) {
     X::AdHoc.new(payload => 'File not opened').throw if ! $fh.opened;
     $!fh = $fh;
     $!size = $!fh.IO.s;
@@ -47,31 +47,9 @@ Desktop::Notify::Progress - Show the progress of file processing in a notificati
 
 use Desktop::Notify::Progress;
 
-my $p := Desktop::Notify::Progress.new: :filename('BigDataFile');
-for $p -> $line {
-  painfully-process($line);
-}
-
-=end code
-
-=begin code :lang<perl6>
-
-use Desktop::Notify::Progress;
-
 my $fh = 'BigDataFile'.IO.open;
 my $p := Desktop::Notify::Progress.new: :$fh, :title('Long data processing'), :timeout(2);
 for $p -> $line {
-  painfully-process($line);
-}
-
-=end code
-
-=begin code :lang<perl6>
-
-use Desktop::Notify::Progress;
-
-my $p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
-for $p<> -> $line {
   painfully-process($line);
 }
 
