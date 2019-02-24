@@ -7,7 +7,7 @@
   "depends" : [
     "Desktop::Notify"
   ],
-  "description" : "Show the progress of file processing in a notification popup",
+  "description" : "Show the progress of processing in a notification popup",
   "license" : "Artistic-2.0",
   "name" : "Desktop::Notify::Progress",
   "perl" : "6.c",

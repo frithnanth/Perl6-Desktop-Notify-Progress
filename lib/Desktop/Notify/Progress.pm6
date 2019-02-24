@@ -5,6 +5,8 @@ use Desktop::Notify;
 class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
   has IO::Handle $!fh;
   has Int $!size;
+  has &!get;
+  has Int $!count = 0;
   has Desktop::Notify $!notify;
   has NotifyNotification $!n;
 
@@ -13,17 +15,28 @@ class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
     $!fh = $filename.IO.open;
     $!size = $!fh.IO.s;
     $!notify = Desktop::Notify.new(app-name => $title // $filename);
-    $!n = $!notify.new-notification: :summary($title // $filename), :body(self.perc), :icon('info'), :$timeout
+    $!n = $!notify.new-notification: :summary($title // $filename), :body('000.00%'), :icon('info'), :$timeout;
   }
   multi submethod BUILD(IO::Handle :$fh!, Str :$title!, Int :$timeout? = 0) {
     X::AdHoc.new(payload => 'File not opened').throw if ! $fh.opened;
     $!fh = $fh;
     $!size = $!fh.IO.s;
     $!notify = Desktop::Notify.new(app-name => $title);
-    $!n = $!notify.new-notification: :summary($title), :body(self.perc), :icon('info'), :$timeout
+    $!n = $!notify.new-notification: :summary($title), :body('000.00%'), :icon('info'), :$timeout;
+  }
+  multi submethod BUILD(:&get!, Int :$size?, Str :$title!, Int :$timeout? = 0) {
+    X::AdHoc.new(payload => '$size must be > 0').throw if $size.defined && $size ≤ 0;
+    &!get  = &get;
+    $!size = $size;
+    $!notify = Desktop::Notify.new(app-name => $title);
+    $!n = $!notify.new-notification: :summary($title), :body('000.00%'), :icon('info'), :$timeout;
   }
   method perc(--> Str) {
-    ($!fh.tell / $!size * 100).fmt: '%6.2f%%';
+    with $!size {
+      (($!fh ?? $!fh.tell !! $!count++) / $!size * 100).fmt: '%6.2f%%';
+    } else {
+      ($!count++).fmt: '%d';
+    }
   }
   method iterator { self }
   method pull-one {
@@ -31,7 +44,7 @@ class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
       .update: $!n, .app-name, self.perc, 'info';
       .show: $!n
     }
-    $!fh.get // IterationEnd
+    ($!fh ?? $!fh.get !! &!get()) // IterationEnd;
   }
 }
 
@@ -39,7 +52,7 @@ class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
 
 =head1 NAME
 
-Desktop::Notify::Progress - Show the progress of file processing in a notification popup
+Desktop::Notify::Progress - Show the progress of processing in a notification popup
 
 =head1 SYNOPSIS
 
@@ -72,14 +85,22 @@ Desktop::Notify::Progress is a small class that provides a way to show the progr
 
 =head2 new(Str :$filename!, Str :$title?, Int :$timeout? = 0)
 =head2 new(IO::Handle :$fh!, :$title!, Int :$timeout? = 0)
+=head2 new(:&get!, Int :$size?, Str :$title!, Int :$timeout? = 0)
 
 Creates a B<Desktop::Notify::Progress> object.
 
 The first form takes one mandatory argument: B<filename>, which will be used as the notification title.
 Optionally one can pass an additional string which will be used as the notification title: B<title>.
-Another optional parameter B<timeout>, the number of seconds the notification will last until disappearing. By default the notification will not disappear until explicitly closed.
+Another optional parameter B<timeout>, the number of seconds the notification will last until disappearing.
+The default is for the notification not to disappear until explicitly closed.
 
-The second form requires both an opened file handler B<fh> and the notification B<title>. An optional B<timeout> can be specified.
+The second form requires both an opened file handler B<fh> and the notification B<title>. An optional B<timeout>
+can be specified.
+
+The third form takes a mandatory function B<&get> which retrieves the next element, an optional total number of
+elements B<$size>, and an optional B<timeout>.
+If the B<$size> parameter has been provided, the notification will show a percentage, otherwise it will show the
+current element number.
 
 =head2 Usage
 

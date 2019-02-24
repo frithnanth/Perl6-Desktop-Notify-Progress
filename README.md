@@ -3,7 +3,7 @@
 NAME
 ====
 
-Desktop::Notify::Progress - Show the progress of file processing in a notification popup
+Desktop::Notify::Progress - Show the progress of processing in a notification popup
 
 SYNOPSIS
 ========
@@ -11,27 +11,9 @@ SYNOPSIS
 ```perl6
 use Desktop::Notify::Progress;
 
-my $p := Desktop::Notify::Progress.new: :filename('BigDataFile');
-for $p -> $line {
-  painfully-process($line);
-}
-```
-
-```perl6
-use Desktop::Notify::Progress;
-
 my $fh = 'BigDataFile'.IO.open;
 my $p := Desktop::Notify::Progress.new: :$fh, :title('Long data processing'), :timeout(2);
 for $p -> $line {
-  painfully-process($line);
-}
-```
-
-```perl6
-use Desktop::Notify::Progress;
-
-my $p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));
-for $p<> -> $line {
   painfully-process($line);
 }
 ```
@@ -56,11 +38,16 @@ new(Str :$filename!, Str :$title?, Int :$timeout? = 0)
 new(IO::Handle :$fh!, :$title!, Int :$timeout? = 0)
 ---------------------------------------------------
 
+new(:&get!, Int :$size?, Str :$title!, Int :$timeout? = 0)
+----------------------------------------------------------
+
 Creates a **Desktop::Notify::Progress** object.
 
-The first form takes one mandatory argument: **filename**, which will be used as the notification title. Optionally one can pass an additional string which will be used as the notification title: **title**. Another optional parameter **timeout**, the number of seconds the notification will last until disappearing. By default the notification will not disappear until explicitly closed.
+The first form takes one mandatory argument: **filename**, which will be used as the notification title. Optionally one can pass an additional string which will be used as the notification title: **title**. Another optional parameter **timeout**, the number of seconds the notification will last until disappearing. The default is for the notification not to disappear until explicitly closed.
 
 The second form requires both an opened file handler **fh** and the notification **title**. An optional **timeout** can be specified.
+
+The third form takes a mandatory function **&get** which retrieves the next element, an optional total number of elements **$size**, and an optional **timeout**. If the **$size** parameter has been provided, the notification will show a percentage, otherwise it will show the current element number.
 
 Usage
 -----
