@@ -1,6 +1,7 @@
 use v6.c;
 
 use Desktop::Notify;
+use Desktop::Notify::Raw;
 
 class Desktop::Notify::Progress:ver<0.0.1>:auth<cpan:FRITH> does Iterator {
   has IO::Handle $!fh;
@@ -134,7 +135,7 @@ This will install the Desktop::Notify module if not yet present.
 To run the tests:
 
 =begin code
-$ prove -e "perl6 -Ilib"
+$ prove -e "raku -Ilib"
 =end code
 
 =head1 AUTHOR

@@ -12,7 +12,7 @@
   "name" : "Desktop::Notify::Progress",
   "perl" : "6.c",
   "provides" : {
-    "Desktop::Notify::Progress" : "lib/Desktop/Notify/Progress.pm6"
+    "Desktop::Notify::Progress" : "lib/Desktop/Notify/Progress.rakumod"
   },
   "resources" : [ ],
   "source-url" : "https://github.com/frithnanth/perl6-Desktop-Notify-Progress.git",

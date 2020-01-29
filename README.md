@@ -78,7 +78,7 @@ Testing
 
 To run the tests:
 
-    $ prove -e "perl6 -Ilib"
+    $ prove -e "raku -Ilib"
 
 AUTHOR
 ======
