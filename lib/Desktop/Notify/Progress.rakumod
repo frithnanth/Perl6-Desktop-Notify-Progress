@@ -3,7 +3,7 @@ use v6.c;
 use Desktop::Notify;
 use Desktop::Notify::Raw;
 
-class Desktop::Notify::Progress:ver<0.0.2>:auth<zef:FRITH> does Iterator {
+class Desktop::Notify::Progress:ver<0.0.3>:auth<zef:FRITH> does Iterator {
   has IO::Handle $!fh;
   has Int $!size;
   has &!get;
