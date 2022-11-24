@@ -1,26 +1,29 @@
 {
-  "auth" : "cpan:FRITH",
-  "authors" : [
+  "auth": "zef:FRITH",
+  "authors": [
     "Fernando Santagata"
   ],
-  "build-depends" : [ ],
-  "depends" : [
+  "build-depends": [
+  ],
+  "depends": [
     "Desktop::Notify"
   ],
-  "description" : "Show the progress of processing in a notification popup",
-  "license" : "Artistic-2.0",
-  "name" : "Desktop::Notify::Progress",
-  "perl" : "6.c",
-  "provides" : {
-    "Desktop::Notify::Progress" : "lib/Desktop/Notify/Progress.rakumod"
+  "description": "Show the progress of processing in a notification popup",
+  "license": "Artistic-2.0",
+  "name": "Desktop::Notify::Progress",
+  "perl": "6.c",
+  "provides": {
+    "Desktop::Notify::Progress": "lib/Desktop/Notify/Progress.rakumod"
   },
-  "resources" : [ ],
-  "source-url" : "https://github.com/frithnanth/perl6-Desktop-Notify-Progress.git",
-  "tags" : [
+  "resources": [
+  ],
+  "source-url": "https://github.com/frithnanth/perl6-Desktop-Notify-Progress.git",
+  "tags": [
     "desktop",
     "notification",
     "logger"
   ],
-  "test-depends" : [ ],
-  "version" : "0.0.2"
+  "test-depends": [
+  ],
+  "version": "0.0.2"
 }

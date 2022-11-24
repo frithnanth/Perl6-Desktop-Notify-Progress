@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/frithnanth/Perl6-Desktop-Notify-Progress.svg?branch=master)](https://travis-ci.org/frithnanth/Perl6-Desktop-Notify-Progress)
+[![Actions Status](https://github.com/frithnanth/Perl6-Desktop-Notify-Progress/workflows/test/badge.svg)](https://github.com/frithnanth/Perl6-Desktop-Notify-Progress/actions)
 
 NAME
 ====
@@ -8,7 +8,7 @@ Desktop::Notify::Progress - Show the progress of processing in a notification po
 SYNOPSIS
 ========
 
-```perl6
+```raku
 use Desktop::Notify::Progress;
 
 my $fh = 'BigDataFile'.IO.open;
@@ -18,7 +18,7 @@ for $p -> $line {
 }
 ```
 
-```perl6
+```raku
 use Desktop::Notify::Progress;
 
 my @p = Seq.new(Desktop::Notify::Progress.new: :filename('BigDataFile'));

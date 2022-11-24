@@ -3,7 +3,7 @@ use v6.c;
 use Desktop::Notify;
 use Desktop::Notify::Raw;
 
-class Desktop::Notify::Progress:ver<0.0.2>:auth<cpan:FRITH> does Iterator {
+class Desktop::Notify::Progress:ver<0.0.2>:auth<zef:FRITH> does Iterator {
   has IO::Handle $!fh;
   has Int $!size;
   has &!get;
@@ -57,7 +57,7 @@ Desktop::Notify::Progress - Show the progress of processing in a notification po
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Desktop::Notify::Progress;
 
@@ -69,7 +69,7 @@ for $p -> $line {
 
 =end code
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Desktop::Notify::Progress;
 
